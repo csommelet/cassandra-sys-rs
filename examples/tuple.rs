@@ -33,10 +33,10 @@ fn insert_into_tuple(session: &mut CassSession, uuid_gen: &mut CassUuidGen) -> R
         let future = &mut *cass_session_execute(session, statement);
         cass_future_wait(future);
 
-        let rc = cass_future_error_code(future);
+        let _rc = cass_future_error_code(future);
         match cass_future_error_code(future) {
             CASS_OK => {}
-            rc => print_error(future),
+            _rc => print_error(future),
         }
 
         cass_future_free(future);
@@ -120,7 +120,7 @@ fn select_from_tuple(session: &mut CassSession) -> Result<(), CassError> {
 fn main() {
     unsafe {
         let cluster = create_cluster();
-        let mut session = &mut *cass_session_new();
+        let session = &mut *cass_session_new();
 
         let uuid_gen = &mut *cass_uuid_gen_new();
 

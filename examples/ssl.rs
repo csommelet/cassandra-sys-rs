@@ -12,10 +12,10 @@ use std::ffi::CString;
 
 fn load_trusted_cert_file(file: &str, ssl: &mut CassSsl) -> IoResult<()> {
     unsafe {
-        let mut file = try!(File::open(file));
-        let cert_size = try!(file.metadata()).len() as usize;
+        let mut file = File::open(file)?;
+        let cert_size = file.metadata()?.len() as usize;
         let mut cert: Vec<u8> = Vec::with_capacity(cert_size);
-        let byte_len = try!(file.read_to_end(&mut cert));
+        let byte_len = file.read_to_end(&mut cert)?;
         match byte_len == cert_size {
             true => {
                 let rc = cass_ssl_add_trusted_cert_n(ssl, cert.as_ptr() as *const i8, cert_size);
@@ -89,7 +89,7 @@ fn main() {
                         cass_result_free(result);
                         cass_iterator_free(rows);
                     }
-                    rc => {
+                    _rc => {
                         // Handle error
                         let mut message = mem::zeroed();
                         let mut message_length = mem::zeroed();

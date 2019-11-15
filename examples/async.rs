@@ -51,7 +51,7 @@ fn insert_into_async(session: &mut CassSession, key: &str) {
 
 pub fn main() {
     unsafe {
-        let mut cluster = create_cluster();
+        let cluster = create_cluster();
         let session = &mut *cass_session_new();
 
         match connect_session(session, &cluster) {

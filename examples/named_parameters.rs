@@ -88,12 +88,12 @@ fn insert_into_basic(session: &mut CassSession, key: &str, basic: &Basic) -> Res
 
         cass_future_wait(future);
 
-        let rc = cass_future_error_code(future);
-        let result = match cass_future_error_code(future) {
+        let _rc = cass_future_error_code(future);
+        let _result = match cass_future_error_code(future) {
             CASS_OK => Ok(()),
-            rc => {
+            _rc => {
                 print_error(future);
-                Err(rc)
+                Err(_rc)
             }
         };
 
@@ -167,9 +167,9 @@ fn main() {
             i64: 2,
         };
 
-        let result = match connect_session(session, cluster) {
+        let _result = match connect_session(session, cluster) {
             CASS_OK => {}
-            rc => {
+            _rc => {
                 cass_cluster_free(cluster);
                 cass_session_free(session);
             }

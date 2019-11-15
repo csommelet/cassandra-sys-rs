@@ -33,7 +33,7 @@ fn insert_into_maps(session: &mut CassSession, key: &str, items: Vec<Pair>) -> R
         let future = &mut *cass_session_execute(session, statement);
         cass_future_wait(future);
 
-        let result = match cass_future_error_code(future) {
+        let _result = match cass_future_error_code(future) {
             CASS_OK => Ok(()),
             rc => {
                 print_error(future);

@@ -20,7 +20,7 @@ fn main() {
         // Provide the cluster object as configuration to connect the session
         let connect_future = cass_session_connect(session, cluster);
 
-        let result = match cass_future_error_code(connect_future) {
+        let _result = match cass_future_error_code(connect_future) {
             CASS_OK => {
                 // Build statement and execute query
                 let query = "SELECT keyspace_name FROM system_schema.keyspaces;";
@@ -49,7 +49,7 @@ fn main() {
                         cass_result_free(result);
                         cass_iterator_free(rows);
                     }
-                    rc => {
+                    _rc => {
                         // Handle error
                         let mut message = mem::zeroed();
                         let mut message_length = mem::zeroed();
@@ -67,7 +67,7 @@ fn main() {
                 cass_future_wait(close_future);
                 cass_future_free(close_future);
             }
-            rc => {
+            _rc => {
                 // Handle error
                 let mut message = mem::zeroed();
                 let mut message_length = mem::zeroed();
